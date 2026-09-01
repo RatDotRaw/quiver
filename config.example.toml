@@ -1,0 +1,23 @@
+# broadcaster id, AKA. the streamer
+broadcaster_id = "704122424"
+
+# Twitch events to subscribe to.
+events = [
+    "channel.chat.message",
+]
+# available event types:
+# channel.bits.use
+# channel.chat.message
+# channel.follow
+# channel.raid
+# channel.subscribe
+
+[RabbitMQ]
+rabbit_mq_url = "https://rabbitMQURL:36675"
+exchange_name = "twitch"
+routing_key = "events"
+
+[AppKeys]
+# Twitch app secrets
+client_id = "VerySecretClientId"
+client_secret = "EvenMoreSecretClientSecret"
