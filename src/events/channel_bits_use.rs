@@ -36,5 +36,13 @@ pub fn handle_bits_use(notification: WSNotification) -> Option<TwitchBitsUse> {
         return None;
     };
 
+    println!("channel.bits.use:: {}:{} :: {} :: {} cheered {} bits with message: {}",
+        payload.event.broadcaster_user_name,
+        payload.event.broadcaster_user_id,
+        payload.event.user_id,
+        payload.event.user_name,
+        payload.event.bits,
+        payload.event.message.text
+    );
     return Some(payload);
 }

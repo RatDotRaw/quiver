@@ -23,10 +23,16 @@ pub fn handle_follow(notification: WSNotification) -> Option<TwitchFollow> {
     // Borrowing with & ( serde_json can deserialize from &Value )
     let Ok(payload) = serde_json::from_value::<TwitchFollow>(notification.payload.clone())
     else {
-        eprintln!("hmm");
+        eprintln!("Failed to deserialize follow");
         return None;
     };
 
-    println!("#@#@#@#@#@#\n{} started following {}\n=@=@=@=@=@=", payload.event.user_name, payload.event.broadcaster_user_name);
+    println!("channel.follow:: {}:{} :: {} :: {} followed at {}",
+        payload.event.broadcaster_user_name,
+        payload.event.broadcaster_user_id,
+        payload.event.user_id,
+        payload.event.user_name,
+        payload.event.followed_at
+    );
     return Some(payload);
 }

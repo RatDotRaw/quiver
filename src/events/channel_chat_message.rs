@@ -24,10 +24,16 @@ pub fn handle_message(notification: WSNotification) -> Option<TwitchChatMessage>
     // Borrowing with & ( serde_json can deserialize from &Value )
     let Ok(payload) = serde_json::from_value::<TwitchChatMessage>(notification.payload.clone())
     else {
-        eprintln!("hmm");
+        eprintln!("Failed to deserialize chat_message");
         return None;
     };
 
-    println!("user:read:chat :: {}: {}", payload.event.chatter_user_name, payload.event.message.text);
+    println!("channel.chat.message:: {}:{} :: {} :: {}: {}",
+        payload.event.broadcaster_user_name,
+        payload.event.broadcaster_user_id,
+        payload.event.chatter_user_id,
+        payload.event.chatter_user_name,
+        payload.event.message.text
+    );
     return Some(payload);
 }

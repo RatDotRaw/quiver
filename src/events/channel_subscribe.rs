@@ -24,10 +24,18 @@ pub fn handle_subscribe(notification: WSNotification) -> Option<TwitchSubscribe>
     // Borrowing with & ( serde_json can deserialize from &Value )
     let Ok(payload) = serde_json::from_value::<TwitchSubscribe>(notification.payload.clone())
     else {
-        eprintln!("hmm");
+        eprintln!("Failed to deserialize subscribe");
         return None;
     };
 
+    println!("channel.subscribe:: {}:{} :: {} :: {} subscribed at tier {} (is_gift: {})",
+        payload.event.broadcaster_user_name,
+        payload.event.broadcaster_user_id,
+        payload.event.user_id,
+        payload.event.user_name,
+        payload.event.tier,
+        payload.event.is_gift
+    );
     // todo!("This should get triggered when host raid someone, but no code was written for it.")
     return Some(payload);
 }

@@ -129,7 +129,7 @@ impl TwitchAuthenticator {
 
         println!("access token received and assigned!");
 
-        self.get_user_data().await.unwrap();
+        self.get_current_user_data().await.unwrap();
 
         Ok(())
     }
@@ -137,7 +137,7 @@ impl TwitchAuthenticator {
     /// Get the current user id for later use.
     /// We dont need the rest.
     /// Docs: https://dev.twitch.tv/docs/api/reference/#get-users
-    pub async fn get_user_data(&mut self) -> Result<(), Box<dyn std::error::Error>> {
+    pub async fn get_current_user_data(&mut self) -> Result<(), Box<dyn std::error::Error>> {
         let access_token = self
             .access_token
             .as_ref()
