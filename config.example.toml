@@ -1,5 +1,5 @@
 # broadcaster id, AKA. the streamer
-broadcaster_id = "704122424"
+broadcaster_id = "000000000"
 
 # Twitch events to subscribe to.
 events = [
@@ -11,6 +11,7 @@ events = [
 # channel.follow
 # channel.raid
 # channel.subscribe
+# channel.subscription.gift
 
 [RabbitMQ]
 rabbit_mq_url = "https://rabbitMQURL:36675"

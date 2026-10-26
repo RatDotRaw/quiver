@@ -5,6 +5,7 @@ use std::fs;
 pub struct Config {
     pub broadcaster_id: String,
     pub events: Vec<String>,
+    #[serde(rename = "RabbitMQ")]
     pub rabbit_mq: RabbitMQ,
     #[serde(rename = "AppKeys")]
     pub app_keys: AppKeys,
