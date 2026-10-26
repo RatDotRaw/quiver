@@ -2,11 +2,12 @@ use std::collections::HashMap;
 
 pub enum EventSubType {
     // https://dev.twitch.tv/docs/eventsub/eventsub-subscription-types/
-    ChannelBitsUse,     // channel.bits.use
-    ChannelChatMessage, // channel.chat.message
-    ChannelFollow,      // channel.follow
-    ChannelRaid,        // channel.raid
-    ChannelSubscribe,   // channel.subscribe
+    ChannelBitsUse,          // channel.bits.use
+    ChannelChatMessage,      // channel.chat.message
+    ChannelFollow,           // channel.follow
+    ChannelRaid,             // channel.raid
+    ChannelSubscribe,        // channel.subscribe
+    ChannelSubscriptionGift, // channel.subscription.gift
 }
 
 impl EventSubType {
@@ -33,6 +34,7 @@ impl EventSubType {
                 "channel.follow" => result.push(EventSubType::ChannelFollow),
                 "channel.raid" => result.push(EventSubType::ChannelRaid),
                 "channel.subscribe" => result.push(EventSubType::ChannelSubscribe),
+                "channel.subscription.gift" => result.push(EventSubType::ChannelSubscriptionGift),
                 _ => eprintln!("EventSubType for '{}' not found.", e),
             }
         }
@@ -47,6 +49,7 @@ impl EventSubType {
             EventSubType::ChannelFollow => ("channel.follow", 2),
             EventSubType::ChannelRaid => ("channel.raid", 1),
             EventSubType::ChannelSubscribe => ("channel.subscribe", 1),
+            EventSubType::ChannelSubscriptionGift => ("channel.subscription.gift", 1),
         }
     }
 
@@ -57,7 +60,9 @@ impl EventSubType {
             EventSubType::ChannelChatMessage => &["user:read:chat"],
             EventSubType::ChannelFollow => &["moderator:read:followers"],
             EventSubType::ChannelRaid => &[],
-            EventSubType::ChannelSubscribe => &["channel:read:subscriptions"],
+            EventSubType::ChannelSubscribe | EventSubType::ChannelSubscriptionGift => {
+                &["channel:read:subscriptions"]
+            }
         }
     }
 
@@ -80,7 +85,7 @@ impl EventSubType {
                 map.insert("moderator_user_id".into(), user_id);
             }
             EventSubType::ChannelRaid => return map,
-            EventSubType::ChannelSubscribe => {
+            EventSubType::ChannelSubscribe | EventSubType::ChannelSubscriptionGift => {
                 map.insert("broadcaster_user_id".into(), broadcaster_id);
             }
         }

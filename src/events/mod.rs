@@ -6,3 +6,4 @@ pub mod channel_raid;
 pub mod channel_subscribe;
 pub mod router;
 pub mod shared_types;
+pub mod channel_subscription_gift;

@@ -2,7 +2,7 @@ use serde::Serialize;
 
 use crate::{
     events::{
-        channel_bits_use::{TwitchBitsUse, handle_bits_use}, channel_chat_message::{TwitchChatMessage, handle_message}, channel_follow::{TwitchFollow, handle_follow}, channel_raid::{TwitchChannelRaid, handle_raid}, channel_subscribe::{TwitchSubscribe, handle_subscribe},
+        channel_bits_use::{TwitchBitsUse, handle_bits_use}, channel_chat_message::{TwitchChatMessage, handle_message}, channel_follow::{TwitchFollow, handle_follow}, channel_raid::{TwitchChannelRaid, handle_raid}, channel_subscribe::{TwitchSubscribe, handle_subscribe}, channel_subscription_gift::{TwitchSubscriptionGift, handle_subscription_gift},
     }, twitch::twitch_event_sub::WSNotification,
 };
 
@@ -12,7 +12,8 @@ pub enum TwitchEvent {
     ChatMessage(TwitchChatMessage), 
     Follow(TwitchFollow), 
     Raid(TwitchChannelRaid), 
-    Subscribe(TwitchSubscribe)
+    Subscribe(TwitchSubscribe),
+    SubscriptionGift(TwitchSubscriptionGift),
 }
 
 pub fn route(notification: WSNotification) -> Option<TwitchEvent> {
@@ -29,6 +30,7 @@ pub fn route(notification: WSNotification) -> Option<TwitchEvent> {
         "channel.follow" => handle_follow(notification).map(TwitchEvent::Follow),
         "channel.raid" => handle_raid(notification).map(TwitchEvent::Raid),
         "channel.subscribe" => handle_subscribe(notification).map(TwitchEvent::Subscribe),
+        "channel.subscription.gift" => handle_subscription_gift(notification).map(TwitchEvent::SubscriptionGift),
         _ => { 
             println!("Router encountered unkown condition: {}", event_type);
             None
